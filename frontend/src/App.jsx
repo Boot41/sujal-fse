@@ -1,8 +1,22 @@
 import React from 'react'
+import {BrowserRouter as Router , Routes , Route} from "react-router-dom";
+import Home from './Pages/Home';
+import Navbar from './Components/Navbar';
+import About from './Pages/About';
+import Pricing from './Pages/Pricing';
 
 const App = () => {
   return (
-    <div><h1 className='text-center text-6xl text-red-500'>Hello World</h1></div>
+    <>
+    <Navbar/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/pricing" element={<Pricing />} />
+        </Routes>
+      </Router>
+    </>
   )
 }
 

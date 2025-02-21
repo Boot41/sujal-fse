@@ -1,26 +1,22 @@
+import dotenv from "dotenv";
+dotenv.config(); // Load .env FIRST!
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import productRoutes from "./src/routes/productRoutes.js";
+import connectDB from "./src/config/db.js";
+import productRoutes from "./src/routes/product.routes.js";
 
-dotenv.config();
+connectDB(); // Now it can access process.env.MONGO_URI
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-// Routes
 app.get("/", (req, res) => {
-    res.send("🚀 Server is running perfectly");
+    res.json({ message: "🚀 Server is running perfectly" });
 });
 
-// Mount product routes correctly
 app.use("/api/products", productRoutes);
 
-// Only start the server if this file is run directly
-if (process.env.NODE_ENV !== 'test') {
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-}
-
-export default app;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

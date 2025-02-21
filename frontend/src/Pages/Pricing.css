@@ -1,0 +1,29 @@
+.pricing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pricing-cards {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.pricing-card {
+    border-radius: 8px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.free-tier {
+    background-color: #333; /* light black */
+    color: white;
+}
+
+.standard-tier,
+.premium-tier {
+    background-color: white;
+    color: black;
+}
