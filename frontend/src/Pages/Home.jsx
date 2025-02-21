@@ -2,8 +2,8 @@ import React from 'react';
 
 const Home = () => {
     return (
-        <div className="max-w-[900px] mx-auto flex flex-col items-center justify-center h-screen px-4 sm:px-0">
-            <h1 className="text-5xl sm:text-7xl font-bold text-orange-500 text-center">Think41 Inventory Management System</h1>
+        <div className="max-w-[900px] mx-auto flex flex-col items-center justify-center mt-42 px-4 sm:px-0">
+            <h1 className="text-5xl sm:text-7xl font-bold text-orange-500 text-center">Think41 <span className='text-[#4c52e6]'>Inventory Management System</span> </h1>
             <p className="mt-4 text-lg sm:text-xl text-gray-700 font-medium text-center">
                 A comprehensive solution for managing your inventory efficiently.
                 <br />

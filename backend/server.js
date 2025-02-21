@@ -1,20 +1,21 @@
-import dotenv from "dotenv";
-dotenv.config(); // Load .env FIRST!
-
 import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
 import connectDB from "./src/config/db.js";
 import productRoutes from "./src/routes/product.routes.js";
 
-connectDB(); // Now it can access process.env.MONGO_URI
+dotenv.config();
+connectDB();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-    res.json({ message: "🚀 Server is running perfectly" });
-});
+app.get("/" , (req,res)=>{
+    res.json({message : "🚀 Server is running perfectly am good with it."})
+})
 
 app.use("/api/products", productRoutes);
 
