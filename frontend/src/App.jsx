@@ -7,7 +7,7 @@ import About from "./Pages/About";
 import Pricing from "./Pages/Pricing";
 import Register from "./Pages/Register";  
 import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
+import Dashboard from "./Pages/DashboardLayout.jsx";
 import UserInfo from "./Pages/UserInfo.jsx";
 import Logout from "./Pages/Logout.jsx";
 

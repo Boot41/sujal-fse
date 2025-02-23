@@ -1,50 +1,49 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 
-// context
+// Context
 export const AuthContext = createContext();
 
-// provider
+// Provider
 export const AuthProvider = ({ children }) => {
-
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [user, setUser] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const authorizationToken = `Bearer ${token}`;
 
+    // Check if token exists
+    const isTokenAvailable = !!token;
+
+    // Store token in local storage
     const storingTokenInLS = (serverToken) => {
         setToken(serverToken);
         localStorage.setItem("token", serverToken);
         return Promise.resolve();
     };
 
-    // checking whether the token state variable has token or not 
-    let isTokenAvailable = !!token;
-
-    // logout user 
+    // Logout user
     const logOutUser = () => {
         setToken("");
         localStorage.removeItem("token");
     };
 
-    // JWT AUTHENTICATION : to get in the currently user logged in data 
+    // Axios instance with auth headers
+    const axiosInstance = axios.create({
+        baseURL: "http://localhost:5000/api/v1/",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    // Get user info
     const userAuthentication = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/api/v1/auth/userinfo`, {
-                method: "GET",
-                headers: {
-                    Authorization: authorizationToken,
-                },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
-            }
+            const response = await axiosInstance.get("auth/userinfo");
+            setUser(response.data.user);
         } catch (error) {
-            console.log(error);
+            console.error("Error fetching user data:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// consumer
+// Consumer
 export const useAuth = () => {
     const authContextValue = useContext(AuthContext);
     if (!authContextValue) {

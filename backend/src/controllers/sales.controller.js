@@ -28,11 +28,31 @@ export const logSale = async (req, res) => {
             });
         }
 
-        // Check if stock is sufficient
-        if (product.stock < quantitySold) {
+        // 🔹 Check Stock Levels After Sale
+        if (product.stock < product.threshold) {
+            const retailer = await User.findById(userId);
+
+            // 🔹 AI-Generated Stockout Alert
+            const prompt = `
+                Alert: Stockout Issue Detected  
+
+                    Retailer: "${retailer.name}"  
+                    Product: "${product.name}"  
+
+                    Current Stock: ${product.stock}  
+                    Threshold Level: ${product.threshold}  
+
+Generate a **professional and concise email** alerting the retailer about this issue. The email should be clear, actionable, and urgent. End with **"Best regards, Think41 Inventory Management."**
+`;
+
+            const aiAlertMessage = await generateGroqResponse(prompt);
+
+            // Send email notification
+            await sendStockAlert(retailer.email, `Stock Alert: ${product.name}`, aiAlertMessage);
+
             return res.status(400).json({
                 success: false,
-                message: "Not enough stock available"
+                message: "Not enough stock available, Check your email for details"
             });
         }
 
@@ -48,25 +68,7 @@ export const logSale = async (req, res) => {
             salesChannel
         });
 
-        // 🔹 Check Stock Levels After Sale
-        if (product.stock < product.threshold) {
-            const retailer = await User.findById(userId);
 
-            // 🔹 AI-Generated Stockout Alert
-            const prompt = `
-            The retailer "${retailer.name}" has a stockout issue for product "${product.name}".
-
-            Current Stock: ${product.stock}
-            Stock Threshold: ${product.threshold}
-
-            Generate a professional email alert. Keep it short, clear, and actionable.
-            `;
-
-            const aiAlertMessage = await generateGroqResponse(prompt);
-
-            // Send email notification
-            await sendStockAlert(retailer.email, `Stock Alert: ${product.name}`, aiAlertMessage);
-        }
 
         res.status(201).json({
             success: true,

@@ -1,40 +1,59 @@
-import jwt from "jsonwebtoken";
+// this is the protected route that means first user must be login to acess the routes in which this middleware will be setted 
+// here first we will verify the token 
+
 import User from "../models/user.models.js";
+import jwt from "jsonwebtoken";
 
 const authMiddleware = async (req, res, next) => {
     try {
-        const authHeader = req.header("Authorization");
+        const { authorization } = req.headers;
 
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        if (!authorization) {
             return res.status(401).json({
                 success: false,
-                message: "No token, authorization denied"
+                message: "User must be logged in."
             });
         }
 
-        // Extract token (remove "Bearer ")
-        const token = authHeader.split(" ")[1];
+        const token = authorization.replace("Bearer ", "");
 
-        // Verify token
-        const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        const user = await User.findById(decoded._id).select("-password");
+        const userDetails = jwt.verify(token, process.env.SECRET_KEY, async (err, payload) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: "User must be logged in."
+                });
+            }
 
-        if (!user) {
-            return res.status(401).json({
-                success: false,
-                message: "User not found"
-            });
-        }
+            const { _id } = payload;
 
-        req.user = user;
-        next();
+            try {
+                const userData = await User.findById(_id).select({ password: 0, __v: 0 })
+                // console.log("this is user data ", userData);
+                if (!userData) {
+                    return res.status(401).json({
+                        success: false,
+                        message: "User must be logged in."
+                    });
+                }
+                req.user = userData;
+                next();
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({
+                    success: false,
+                    message: "Internal server error: Error retrieving user data"
+                });
+            }
+        });
+
     } catch (error) {
-        console.error("Auth Middleware Error:", error);
-        res.status(401).json({
+        console.error(error);
+        return res.status(500).json({
             success: false,
-            message: "Invalid token"
+            message: "Internal server error: Error from auth middleware"
         });
     }
-};
+}
 
 export default authMiddleware;
