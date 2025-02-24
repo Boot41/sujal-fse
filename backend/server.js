@@ -13,6 +13,7 @@ import aidemandforecast from "./src/routes/aidemandforecasting.routes.js"
 import chatbotRoutes from "./src/routes/chatbot.routes.js"
 import reportRoutes from "./src/routes/report.routes.js"
 import tallyRoutes from "./src/routes/tally.routes.js"
+import salesairoutes from "./src/routes/salesai.routes.js"
 
 dotenv.config();
 connectDB();
@@ -64,6 +65,7 @@ io.on("connection", (socket) => {
 app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/inventory" , inventoryRoutes);
 app.use("/api/v1/sales" , salesRoutes);
+app.use("/api/v1/salesai" , salesairoutes)
 app.use("/api/v1/ai" , aidemandforecast);
 app.use("/api/v1/chatbot" , chatbotRoutes);
 app.use("/api/v1/report" , reportRoutes);

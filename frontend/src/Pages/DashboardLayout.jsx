@@ -3,6 +3,9 @@ import { FaBox, FaChartBar, FaClipboardList, FaCog, FaHome } from "react-icons/f
 import DashboardHome from "../Inventory/DashboardHome";
 import InventoryInfo from "../Inventory/InventoryInfo";
 import Chatbot from "../Components/Chatbot";
+import SalesDashboard from "../Inventory/SalesDashboard";
+import Reports from "../Reports/Reports";
+import ForecastDashboard from "../Inventory/ForecastDashboard";
 
 const DashboardLayout = () => {
     const [activePage, setActivePage] = useState("Home");
@@ -13,7 +16,7 @@ const DashboardLayout = () => {
         { name: "Inventory", icon: <FaBox /> },
         { name: "Sales", icon: <FaChartBar /> },
         { name: "Reports", icon: <FaClipboardList /> },
-        { name: "Settings", icon: <FaCog /> },
+        { name: "AiForecast", icon: <FaCog /> },
     ];
 
     return (
@@ -41,6 +44,9 @@ const DashboardLayout = () => {
             <div className="w-3/4 ml-[25%] p-6 h-screen overflow-y-auto">
                 {activePage === "Home" && <DashboardHome />}
                 {activePage === "Inventory" && <InventoryInfo />}
+                {activePage === "Sales" && <SalesDashboard />}
+                {activePage === "Reports" && <Reports />}
+                {activePage === "AiForecast" && <ForecastDashboard />}
             </div>
         </div>
 

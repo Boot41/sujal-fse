@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaBox, FaChartLine, FaShoppingCart, FaExclamationTriangle } from "react-icons/fa";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,BarChart,Bar } from "recharts";
+import SalesChart from "./SalesChart";
 
 const DashboardHome = () => {
     const [userName, setUserName] = useState("");
@@ -36,8 +37,9 @@ const DashboardHome = () => {
                 setOrdersProcessed(sales.length);
 
                 // Calculate revenue
-                const revenue = sales.reduce((acc, sale) => acc + sale.revenue, 0);
-                setTotalRevenue(revenue);
+                const revenue = sales.reduce((acc, sale) => acc + sale.productId.price * sale.quantitySold, 0);
+            setTotalRevenue(revenue.toFixed(2));
+
 
                 // Fetch low stock alerts
                 const lowStock = inventoryRes.data.products.filter((item) => item.stock < item.threshold).length;
@@ -89,12 +91,12 @@ const DashboardHome = () => {
                 </div>
 
                 <div className="bg-white p-5 rounded-lg shadow-md flex items-center gap-4 border-l-4 border-orange-500">
-                    <FaChartLine className="text-blue-500 text-4xl" />
-                    <div>
-                        <h3 className="text-lg font-semibold">Total Revenue</h3>
-                        <p className="text-2xl font-bold text-blue-500">₹{totalRevenue}</p>
-                    </div>
+                <FaChartLine className="text-orange-500 text-4xl" />
+                <div>
+                    <h3 className="text-lg font-semibold">Total Revenue</h3>
+                    <p className="text-2xl font-bold">₹{totalRevenue}</p>
                 </div>
+            </div>
 
                 <div className="bg-white p-5 rounded-lg shadow-md flex items-center gap-4 border-l-4 border-orange-500">
                     <FaShoppingCart className="text-orange-500 text-4xl" />
@@ -114,7 +116,7 @@ const DashboardHome = () => {
             </div>
 
             {/* Sales Trend Graph */}
-            <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+            {/* <div className="bg-white p-5 rounded-lg shadow-md mb-6">
     <h3 className="text-lg font-semibold text-blue-500 mb-4">Sales Trend</h3>
     <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={salesData}>
@@ -131,8 +133,8 @@ const DashboardHome = () => {
             <Area type="monotone" dataKey="revenue" stroke="#f97316" fillOpacity={1} fill="url(#colorRevenue)" />
         </AreaChart>
     </ResponsiveContainer>
-</div>
-
+</div> */}
+<SalesChart/>
             {/* Category-Wise Stock Bar Chart */}
             <div className="bg-white p-5 rounded-lg shadow-md">
                 <h3 className="text-lg font-semibold text-blue-500 mb-4">Category-Wise Stock</h3>
