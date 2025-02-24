@@ -23,7 +23,7 @@ const PricingLandingPage = () => {
             <main className='max-w-[1080px] h-screen flex flex-col gap-2 md:gap-10 z-10'>
                 <div>
                     <h1 className="text-4xl md:text-7xl font-roboto font-extrabold text-left md:text-center text-gray-800 mb-2 md:mb-6 opacity-100 tracking-tighter pt-5">
-                        Flexible Pricing for <span className="text-blue-500">Think41</span> Inventory Management
+                        Flexible Pricing for <span className="text-orange-500">Think41</span> Inventory Management
                     </h1>
                     <p className="text-md md:text-[20px] text-start md:text-center text-gray-500 font-extrabold font-mulsih mb-2 md:mb-8">
                         Choose a pricing plan that fits your business needs. Get AI-powered inventory insights, real-time stock alerts and lot more.

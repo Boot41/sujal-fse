@@ -37,8 +37,15 @@ const DashboardHome = () => {
                 setOrdersProcessed(sales.length);
 
                 // Calculate revenue
-                const revenue = sales.reduce((acc, sale) => acc + sale.productId.price * sale.quantitySold, 0);
-            setTotalRevenue(revenue.toFixed(2));
+                // Calculate revenue safely
+const revenue = sales.reduce((acc, sale) => {
+    return sale.productId && sale.productId.price
+        ? acc + sale.productId.price * sale.quantitySold
+        : acc;
+}, 0);
+
+setTotalRevenue(revenue.toFixed(2));
+
 
 
                 // Fetch low stock alerts

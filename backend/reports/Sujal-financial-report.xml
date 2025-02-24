@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Financial Report</REPORTNAME>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <FINANCIAL_ANALYSIS>
+          <PROFIT_FORECAST>Cannot be determined without average product price and operational cost data</PROFIT_FORECAST>
+          <REVENUE>$1990.00</REVENUE>
+          <EXPENSES>Cannot be determined without operational cost data</EXPENSES>
+          <CASH_FLOW>Positive cash flow based on sales data</CASH_FLOW>
+          <TAX_SUGGESTIONS>Consult a tax professional for potential tax savings advice</TAX_SUGGESTIONS>
+        </FINANCIAL_ANALYSIS>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>

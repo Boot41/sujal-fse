@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaBox, FaChartBar, FaClipboardList, FaCog, FaHome } from "react-icons/fa";
+import { FaBox, FaChartBar, FaClipboardList, FaHome } from "react-icons/fa";
+import { VscRobot } from "react-icons/vsc";
 import DashboardHome from "../Inventory/DashboardHome";
 import InventoryInfo from "../Inventory/InventoryInfo";
 import Chatbot from "../Components/Chatbot";
@@ -16,20 +17,20 @@ const DashboardLayout = () => {
         { name: "Inventory", icon: <FaBox /> },
         { name: "Sales", icon: <FaChartBar /> },
         { name: "Reports", icon: <FaClipboardList /> },
-        { name: "AiForecast", icon: <FaCog /> },
+        { name: "AiForecast", icon: <VscRobot /> },
     ];
 
     return (
       <div className="relative">
  <div className="flex h-screen bg-gray-100 mt-14">
             {/* Sidebar (Fixed Position) */}
-            <div className="w-1/4 bg-blue-200 text-black p-6 fixed h-full">
+            <div className="w-1/5 bg-blue-200 text-black p-6 fixed h-full">
                 <h2 className="text-2xl font-bold mb-6">Retailer Dashboard</h2>
                 <ul>
                     {menuItems.map((item) => (
                         <li
                             key={item.name}
-                            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-blue-300 ${
+                            className={`flex items-center gap-6 my-2 p-3 rounded-lg cursor-pointer hover:bg-blue-300 ${
                                 activePage === item.name ? "bg-blue-500" : ""
                             }`}
                             onClick={() => setActivePage(item.name)}
@@ -41,7 +42,7 @@ const DashboardLayout = () => {
             </div>
 
             {/* Right Content Area (Scrollable) */}
-            <div className="w-3/4 ml-[25%] p-6 h-screen overflow-y-auto">
+            <div className="w-3/2 ml-[20%] p-6 h-screen overflow-y-auto">
                 {activePage === "Home" && <DashboardHome />}
                 {activePage === "Inventory" && <InventoryInfo />}
                 {activePage === "Sales" && <SalesDashboard />}

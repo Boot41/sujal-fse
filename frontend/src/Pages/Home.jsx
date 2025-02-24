@@ -1,11 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Footer from "../Components/Footer";
 import FAQ from "../Components/FAQ";
 import WhatWeDo from "../Components/WhatWeDo";
 import OurWork from "../Components/OurWork";
+import { useAuth } from "../store/auth";
 
 const Home = () => {
+
+  const {user} = useAuth();
   return (
     <>
       <div className="relative flex flex-col items-center justify-center md:min-h-screen bg-white pt-36 md:pt-20 p-2 md:p-4 overflow-hidden">
@@ -19,10 +23,10 @@ const Home = () => {
         </div>
 
         {/* Main Content */}
-        <main className="max-w-[1080px] flex flex-col gap-6 md:gap-12 z-10 text-center">
+        <main className="max-w-[1080px] flex flex-col gap-6 md:gap-6 z-10 text-center">
           {/* Title Animation */}
           <motion.h1
-            className="text-4xl md:text-7xl font-extrabold text-orange-500"
+            className="text-4xl md:text-[85px] font-extrabold text-orange-500"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
@@ -38,7 +42,7 @@ const Home = () => {
             transition={{ delay: 0.5, duration: 1 }}
           >
             The <span className="text-orange-500 font-bold">#1 AI-Powered</span> solution for retailers to  
-            <br /> track, organize, and optimize inventory with ease.
+            track, organize, and optimize inventory with ease.
           </motion.p>
 
           {/* Buttons with Animation */}
@@ -48,18 +52,27 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 1 }}
           >
-            <a
-              href="/dashboard"
+
+            {
+              user ?<Link
+              to="/dashboard"
               className="bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 shadow-lg hover:scale-105"
             >
               Explore Dashboard 🚀
-            </a>
-            <a
-              href="/pricing"
+            </Link> : <Link
+              to="/signin"
+              className="bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 shadow-lg hover:scale-105"
+            >
+              Explore Dashboard 🚀
+            </Link>
+            }
+            
+            <Link
+              to="/pricing"
               className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-400 transition duration-300 shadow-lg hover:scale-105"
             >
               Subscription Model
-            </a>
+            </Link>
           </motion.div>
         </main>
       </div>

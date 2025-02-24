@@ -20,33 +20,54 @@ const SalesDashboard = () => {
             const res = await axios.get("http://localhost:5000/api/v1/sales", {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             });
-
+    
             const sales = res.data.sales;
-            setTotalSales(sales.length);
+            
+            if (!sales || sales.length === 0) {
+                setTotalSales(0);
+                setTotalRevenue(0);
+                setMostSoldProduct("N/A");
+                return;
+            }
 
-            const revenue = sales.reduce((acc, sale) => acc + sale.productId.price * sale.quantitySold, 0);
+            // ✅ Corrected: Total sales now sums up `quantitySold`
+            const totalQuantitySold = sales.reduce((acc, sale) => acc + (sale.quantitySold || 0), 0);
+            setTotalSales(totalQuantitySold);
+
+            // ✅ Corrected: Calculate revenue safely
+            const revenue = sales.reduce((acc, sale) => {
+                return sale.productId?.price
+                    ? acc + (sale.productId.price * sale.quantitySold)
+                    : acc;
+            }, 0);
             setTotalRevenue(revenue.toFixed(2));
 
+            // ✅ Find most sold product safely
             const productCount = {};
             sales.forEach(sale => {
-                productCount[sale.productId.name] = (productCount[sale.productId.name] || 0) + sale.quantitySold;
+                if (sale.productId?.name) {
+                    productCount[sale.productId.name] = (productCount[sale.productId.name] || 0) + sale.quantitySold;
+                }
             });
 
             const bestSeller = Object.keys(productCount).reduce((a, b) => productCount[a] > productCount[b] ? a : b, "");
-            setMostSoldProduct(bestSeller);
+            setMostSoldProduct(bestSeller || "N/A");
+
         } catch (error) {
-            console.error("Error fetching sales overview:", error);
+            console.error("❌ Error fetching sales overview:", error);
         }
     };
 
     return (
         <div className="p-6">
+            <h1 className="text-3xl font-bold mb-8 text-blue-500">📈 Sales Insights</h1>
+
             {/* Sales Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-5 rounded-lg shadow-md flex items-center gap-4 border-l-4 border-blue-500">
                     <FaShoppingCart className="text-blue-500 text-4xl" />
                     <div>
-                        <h3 className="text-lg font-semibold">Total Sales</h3>
+                        <h3 className="text-lg font-semibold">Total Products Sold</h3>
                         <p className="text-2xl font-bold">{totalSales}</p>
                     </div>
                 </div>
@@ -87,7 +108,6 @@ const SalesDashboard = () => {
 
             {/* Sales List and Chart */}
             <SalesList />
-
             <br />
             <SalesChart />
         </div>
