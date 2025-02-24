@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import { DataGrid } from "@mui/x-data-grid";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import ExtraFeatureInventory from "./ExtraFeatureInventory";
 
 Modal.setAppElement("#root");
 
@@ -127,6 +128,8 @@ const InventoryInfo = () => {
                     </button>
                 </form>
             </Modal>
+
+            <ExtraFeatureInventory/>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaBox, FaChartBar, FaClipboardList, FaCog, FaHome } from "react-icons/fa";
 import DashboardHome from "../Inventory/DashboardHome";
 import InventoryInfo from "../Inventory/InventoryInfo";
+import Chatbot from "../Components/Chatbot";
 
 const DashboardLayout = () => {
     const [activePage, setActivePage] = useState("Home");
@@ -16,7 +17,8 @@ const DashboardLayout = () => {
     ];
 
     return (
-        <div className="flex h-screen bg-gray-100 mt-14">
+      <div className="relative">
+ <div className="flex h-screen bg-gray-100 mt-14">
             {/* Sidebar (Fixed Position) */}
             <div className="w-1/4 bg-blue-200 text-black p-6 fixed h-full">
                 <h2 className="text-2xl font-bold mb-6">Retailer Dashboard</h2>
@@ -41,6 +43,10 @@ const DashboardLayout = () => {
                 {activePage === "Inventory" && <InventoryInfo />}
             </div>
         </div>
+
+        <Chatbot/>
+      </div>
+       
     );
 };
 
