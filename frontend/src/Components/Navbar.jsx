@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-white fixed w-full top-0 z-50 shadow-sm">
-            <div className="max-w-[900px] mx-auto px-4 flex justify-between items-center h-16">
+            <div className="max-w-[1100px] mx-auto px-4 flex justify-between items-center h-16">
 
                 {/* Logo */}
                 <Link to="/" className="flex items-center" onClick={() => handleLinkClick("home")}>
